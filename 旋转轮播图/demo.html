@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="./css/demo.css">
+	<title>rotate carousel photo</title>
+
+
+	<script type="text/javascript" src='./js/animate.js'></script>
+	<script type="text/javascript" src='./js/select.js'></script>
+	<script type="text/javascript">
+		
+	window.onload = function () {
+		
+		//定位置
+		//五个位置对应五个json对象，统一放到一个数组中，可以从数组中灵活的获取这些json对象
+		var json = [{
+			width: 350,
+			top: 50,
+			left: 30,
+			zIndex: 1,
+			opacity: 0.5
+		},{
+			width: 450,
+			top: 100,
+			left: 0,
+			zIndex: 2,
+			opacity: 0.8
+		},{
+			width: 800,
+			top: 200,
+			left: 100,
+			zIndex: 3,
+			opacity: 1
+		},{
+			width: 450,
+			top: 100,
+			left: 550,
+			zIndex: 2,
+			opacity: 0.8
+		},{
+			width: 350,
+			top: 50,
+			left: 620,
+			zIndex: 1,
+			opacity: 0.5
+		}];
+
+
+
+		refreshImageLocation(0);
+		function refreshImageLocation(index){
+
+			//默认情况下  第i个 对应第i个位置
+			//当index=1时 第i个图 对应i-index个位置
+			//当界面加载完成后，设定每一个li的位置以及透明度
+			var liArr = $('li');
+			for (var i = 0; i < liArr.length; i++){
+				//li和位置是一一对应的
+				var li = liArr[i];
+				var locationIndex = i - index;
+				//判断
+				if (locationIndex < 0) {
+					locationIndex += 5;
+				}
+				var locationData = json[locationIndex];
+
+				//动画
+				animate(li, locationData, null);
+			
+
+			}
+		}
+
+		var index = 0;
+		$('#next').onclick = function (){
+			index++;
+			if (index == 5) {
+				index = 0;
+			}
+
+			//根据index的值 来刷新位置
+			refreshImageLocation(index);
+		}
+
+		$('#prev').onclick = function (){
+			index--;
+			if (index < 0) {
+				index = 4;
+			}
+
+			refreshImageLocation(index);
+		}
+
+		setInterval(function(){
+			index--;
+			if (index < 0) {
+				index = 4;
+			}
+            refreshImageLocation(index);
+		},2000)
+
+		
+
+	}
+	</script>
+</head>
+<body>
+	
+
+	<div class="box">
+		<div class="content">
+			<ul>
+				<li><img src="./images/slidepic1.jpg" alt="" /></li>
+				<li><img src="./images/slidepic2.jpg" alt="" /></li>
+				<li><img src="./images/slidepic3.jpg" alt="" /></li>
+				<li><img src="./images/slidepic4.jpg" alt="" /></li>
+				<li><img src="./images/slidepic5.jpg" alt="" /></li>
+			</ul>
+
+
+		</div>
+		<div class="control">
+			<a href="javascript:;" id="prev"></a>
+			<a href="javascript:;" id="next"></a>
+		</div>
+	</div>
+
+
+
+</body>
+</html>
